@@ -29,6 +29,14 @@ class CameraCamera extends StatefulWidget {
   ///permission on Android
   final bool enableAudio;
 
+  final Widget? imageMask;
+
+  final Widget? iconTakePhoto;
+
+  final Widget? iconChangeCam;
+
+  final bool enableFlash;
+
   CameraCamera({
     Key? key,
     this.resolutionPreset = ResolutionPreset.ultraHigh,
@@ -37,6 +45,10 @@ class CameraCamera extends StatefulWidget {
     this.flashModes = FlashMode.values,
     this.enableZoom = true,
     this.enableAudio = false,
+    this.enableFlash = false,
+    this.imageMask,
+    this.iconTakePhoto,
+    this.iconChangeCam
   }) : super(key: key);
 
   @override
@@ -87,19 +99,22 @@ class _CameraCameraState extends State<CameraCamera> {
                   children: [
                     CameraCameraPreview(
                       enableZoom: widget.enableZoom,
+                      enableFlash: widget.enableFlash,
                       key: UniqueKey(),
                       controller: controller,
+                      iconTakePhoto: widget.iconTakePhoto,
                     ),
+                    widget.imageMask == null ? Container() : widget.imageMask!,
                     if (bloc.status.preview.cameras.length > 1)
                       Align(
-                        alignment: Alignment.bottomRight,
+                        alignment: Alignment.bottomLeft,
                         child: Padding(
                           padding: const EdgeInsets.all(32.0),
                           child: InkWell(
                             onTap: () {
                               bloc.changeCamera();
                             },
-                            child: CircleAvatar(
+                            child: widget.iconChangeCam != null ? widget.iconChangeCam : CircleAvatar(
                               radius: 20,
                               backgroundColor: Colors.black.withOpacity(0.6),
                               child: Icon(
@@ -111,7 +126,22 @@ class _CameraCameraState extends State<CameraCamera> {
                             ),
                           ),
                         ),
-                      )
+                      ),
+                    Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 24),
+                        child: InkWell(
+                          onTap: () {
+                            controller.takePhoto();
+                          },
+                          child: widget.iconTakePhoto != null ? widget.iconTakePhoto : CircleAvatar(
+                            radius: 30,
+                            backgroundColor: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
             failure: (message, _) => Container(

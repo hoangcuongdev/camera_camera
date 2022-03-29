@@ -9,11 +9,15 @@ class CameraCameraPreview extends StatefulWidget {
   final void Function(String value)? onFile;
   final CameraCameraController controller;
   final bool enableZoom;
+  final bool enableFlash;
+  final Widget? iconTakePhoto;
   CameraCameraPreview({
     Key? key,
     this.onFile,
     required this.controller,
     required this.enableZoom,
+    required this.enableFlash,
+    this.iconTakePhoto
   }) : super(key: key);
 
   @override
@@ -85,9 +89,9 @@ class _CameraCameraPreviewState extends State<CameraCameraPreview> {
                           ),
                         ),
                       ),
-                    if (widget.controller.flashModes.length > 1)
+                    if (widget.controller.flashModes.length > 1 && widget.enableFlash)
                       Align(
-                        alignment: Alignment.bottomLeft,
+                        alignment: Alignment.bottomRight,
                         child: Padding(
                           padding: const EdgeInsets.all(32.0),
                           child: CircleAvatar(
@@ -105,21 +109,21 @@ class _CameraCameraPreviewState extends State<CameraCameraPreview> {
                           ),
                         ),
                       ),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 24),
-                        child: InkWell(
-                          onTap: () {
-                            widget.controller.takePhoto();
-                          },
-                          child: CircleAvatar(
-                            radius: 30,
-                            backgroundColor: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
+                    // Align(
+                    //   alignment: Alignment.bottomCenter,
+                    //   child: Padding(
+                    //     padding: const EdgeInsets.only(bottom: 24),
+                    //     child: InkWell(
+                    //       onTap: () {
+                    //         widget.controller.takePhoto();
+                    //       },
+                    //       child: widget.iconTakePhoto != null ? widget.iconTakePhoto : CircleAvatar(
+                    //         radius: 30,
+                    //         backgroundColor: Colors.white,
+                    //       ),
+                    //     ),
+                    //   ),
+                    // ),
                   ],
                 ),
               ),

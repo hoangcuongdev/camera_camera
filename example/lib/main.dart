@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:camera_camera/camera_camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 void main() {
   runApp(MyApp());
@@ -41,6 +42,41 @@ class _MyHomePageState extends State<MyHomePage> {
                     Navigator.pop(context);
                     setState(() {});
                   },
+                  enableZoom: false,
+                  imageMask: CameraFocus.circle(
+                      // color: Colors.black.withOpacity(0.5)
+                      color: Color(0xfffbfbfb)
+                  ),
+                  // iconCamera: Container(
+                  //   child:
+                  // )
+                  iconTakePhoto: SvgPicture.asset(
+                    'assets/images/ic_camera.svg',
+                    semanticsLabel: 'ic_camera',
+                  ),
+                  iconChangeCam: Container(
+                    width: 48,
+                    height: 48,
+                    decoration: ShapeDecoration(
+                        shape: CircleBorder(
+                          side: BorderSide(
+                            color: Color(0xff8a8a8a),
+                            width: 2
+                          )
+                        )
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(12),
+                      child: SvgPicture.asset(
+                        'assets/images/ic_camera_front_back.svg',
+                        semanticsLabel: 'ic_camera_front',
+                      ),
+                    ),
+                  )
+                  // iconChangeCam: SvgPicture.asset(
+                  //   'assets/images/ic_camera_front_back.svg',
+                  //   semanticsLabel: 'ic_camera_front',
+                  // ),
                 )));
   }
 
